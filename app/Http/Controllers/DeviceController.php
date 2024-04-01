@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
 class DeviceController extends Controller
@@ -43,8 +44,8 @@ class DeviceController extends Controller
             if (!$existingAccount) {
                 $account = new Account();
                 $account->user_id = Auth::id();
-                $account->accountId = $accountId;
-                $account->apiKey = $subscriptionKey;
+                $account->accountId = Hash::make($accountId) ;
+                $account->apiKey = Hash::make($subscriptionKey);
                 $account->save();
             }
 
@@ -54,8 +55,8 @@ class DeviceController extends Controller
                 if (!$existingDevice) {
                     $device = new Device();
                     $device->user_id = Auth::id();
-                    $device->api_key = $account->apiKey;
-                    $device->device_accId = $account->accountId;
+                    $device->api_key =  Hash::make($account->apiKey);
+                    $device->device_accId =  Hash::make($account->accountId);
                     $device->device_cid = $item['device-cid'];
                     $device->device_id = $item['device-id'];
                     // $device->room_name = $item['room_name'];
