@@ -14,6 +14,7 @@ class DeviceController extends Controller
     {
         $devices = Device::orderBy("created_at", 'desc');
 
+        // For users only
         if (Auth::user()->usertype == 0) {
             $devices->where('user_id', Auth::id());
         }
@@ -25,7 +26,7 @@ class DeviceController extends Controller
 
     public function addAccount(Request $request)
     {
-        $subscriptionKey = $request->api_key;
+        $subscriptionKey = $request->subscription_key;
         $accountId = $request->account_id;
         // Define the endpoint URL
         $url = "https://api.crestron.io/api/v1/device/accountid/{$accountId}/devices";
@@ -81,7 +82,7 @@ class DeviceController extends Controller
                 'success' => "Account Added!"
             ]);
         } else {
-            // return the error response
+            // return the error response message
             return response()->json([
                 'error' => $response['message']
             ]);
@@ -106,14 +107,14 @@ class DeviceController extends Controller
             return response()->json([
                 'error' => $response['message']
             ]);
-            // echo "Error: " . $response->status() . " - " . $response['message'];
         }
     }
     public function deviceInformation($deviceCID)
     {
         $device = Device::where('device_cid', $deviceCID)->first();
-        return response()->json([
-            'device' => $device
-        ]);
+
+        return $device ? response()->json(['device' => $device]) : response()->json(['error' => 'Device not found.']);
     }
+
+
 }
