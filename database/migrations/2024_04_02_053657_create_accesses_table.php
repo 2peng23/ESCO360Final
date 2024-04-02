@@ -16,6 +16,8 @@ return new class extends Migration
             // $table->string('AccessLevel');
             $table->unsignedBigInteger('UserID');
             $table->foreign('UserID')->references('id')->on('users');
+            $table->unsignedBigInteger('AccountID');
+            $table->foreign('AccountID')->references('id')->on('accounts');
             $table->timestamps();
         });
     }

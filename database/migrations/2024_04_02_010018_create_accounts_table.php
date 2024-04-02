@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('AccessID');
-            $table->foreign('AccessID')->references('id')->on('accesses');
+            // $table->unsignedBigInteger('AccessID');
+            // $table->foreign('AccessID')->references('id')->on('accesses');
             $table->string('ApiAccountID');
             $table->string('ApiAccountKey');
             $table->timestamps();
