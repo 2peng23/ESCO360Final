@@ -115,6 +115,7 @@ class DeviceController extends Controller
         $device = Device::where('device_cid', $deviceCID)->first();
 
         return $device ? response()->json(['device' => $device]) : response()->json(['error' => 'Device not found.']);
+        
     }
 
 
